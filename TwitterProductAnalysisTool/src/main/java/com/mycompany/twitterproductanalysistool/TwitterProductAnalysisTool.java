@@ -22,7 +22,7 @@ public class TwitterProductAnalysisTool {
         } */
         
         SentimentAnalysis st = new SentimentAnalysis();
-        System.out.println("HERE" + st.getSentiment("This film was so good"));
+        System.out.println("HERE" + st.getSentiment("This film was so bad"));
     }
     
 }
