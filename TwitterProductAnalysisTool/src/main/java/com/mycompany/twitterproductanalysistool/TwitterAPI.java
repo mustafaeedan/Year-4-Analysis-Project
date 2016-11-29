@@ -23,6 +23,7 @@ import twitter4j.conf.ConfigurationBuilder;
 public class TwitterAPI {
     private Twitter twitter;
     private QueryResult result;
+    private ArrayList<String> tweets;
     
     public TwitterAPI() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -35,16 +36,21 @@ public class TwitterAPI {
         twitter = tf.getInstance();
     }
     
-    public QueryResult getQuery(String qry) {
+    public ArrayList<String> getQuery(String qry) {
+        tweets = new ArrayList<>();
         try {
             Query query = new Query(qry);
+            query.setCount(50);
             result = twitter.search(query);
+            for (Status status : result.getTweets()) {
+                tweets.add(status.getText());
+            }
         } catch (TwitterException te) {
             te.printStackTrace();
             System.out.println("Failed to search tweets: " + te.getMessage());
             System.exit(-1);
         }
-        return result;
+        return tweets;
     }
     
 }

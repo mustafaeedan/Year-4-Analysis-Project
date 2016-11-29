@@ -6,6 +6,7 @@
 package com.mycompany.twitterproductanalysistool.GUI;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -15,6 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class ListFrame extends javax.swing.JFrame {
     private DefaultListModel listModel;
+    private String feat;
 
     /**
      * Creates new form ListFrame
@@ -108,7 +110,16 @@ public class ListFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        List selected = jList1.getSelectedValuesList();
+        ArrayList<String> selectedValues = new ArrayList<>();
+        for (Object o : selected) {
+            selectedValues.add(o.toString());
+        }
+        String joinedWords = String.join(" ", selectedValues);
+        System.out.println(joinedWords);
+        TwitterAnalysisFrame tf = new TwitterAnalysisFrame(joinedWords, feat);
+        setVisible(false);
+        tf.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -121,6 +132,14 @@ public class ListFrame extends javax.swing.JFrame {
         for (String s : list) {
             listModel.addElement(s);
         }
+    }
+    
+    public String getFeature() {
+        return feat;
+    }
+    
+    public void setFeature(String s) {
+        feat = s;
     }
     /**
      * @param args the command line arguments

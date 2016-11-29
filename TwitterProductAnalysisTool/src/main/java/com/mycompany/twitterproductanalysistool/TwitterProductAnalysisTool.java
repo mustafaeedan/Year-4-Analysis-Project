@@ -5,6 +5,8 @@
  */
 package com.mycompany.twitterproductanalysistool;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Mustafa
@@ -12,17 +14,12 @@ package com.mycompany.twitterproductanalysistool;
 public class TwitterProductAnalysisTool {
     
         public static void main(String[] args) {
-        /*TwitterAPI twit = new TwitterAPI();
-        QueryResult qr = twit.getQuery("#trump");
-        if (qr == null) {
-            System.out.println("BAD");
+        TwitterAPI twit = new TwitterAPI();
+        ArrayList<String> qr = twit.getQuery("#iphone7 headphone");
+        for(String s : qr) {
+            System.out.println(s);
         }
-        for (Status status : qr.getTweets()) {
-            System.out.println("@" + status.getUser().getScreenName() + ":" + status.getText());
-        } */
         
-        SentimentAnalysis st = new SentimentAnalysis();
-        System.out.println("HERE" + st.getSentiment("This film was so bad"));
     }
     
 }

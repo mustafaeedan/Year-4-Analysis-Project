@@ -100,6 +100,7 @@ public class UserInputFrame extends javax.swing.JFrame {
             setVisible(false);
             ListFrame lf = new ListFrame();
             lf.setList(words);
+            lf.setFeature(data);
             lf.setVisible(true);
         }
         else {
