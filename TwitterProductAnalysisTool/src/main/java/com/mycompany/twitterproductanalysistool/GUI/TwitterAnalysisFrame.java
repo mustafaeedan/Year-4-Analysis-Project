@@ -45,7 +45,7 @@ public class TwitterAnalysisFrame extends javax.swing.JFrame {
         ArrayList<String> tweets = twitter.getQuery(hashTag);
         KeywordExtraction key = new KeywordExtraction();
         for(String s : tweets) {
-            listKeywords.add(key.getKeywords(s)); 
+                listKeywords.add(key.getKeywords(s)); 
         }
         for (int i = 0; i< listKeywords.size(); i++) {
             ArrayList<String> list = listKeywords.get(i);
