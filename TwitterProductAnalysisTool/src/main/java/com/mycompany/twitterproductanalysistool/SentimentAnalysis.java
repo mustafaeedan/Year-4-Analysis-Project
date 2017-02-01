@@ -21,6 +21,7 @@ import edu.stanford.nlp.util.CoreMap;
 public class SentimentAnalysis {
     
     private StanfordCoreNLP pipeline;
+    private int sent;
     
     public SentimentAnalysis() {
         Properties p = new Properties();
@@ -29,7 +30,8 @@ public class SentimentAnalysis {
         pipeline = new StanfordCoreNLP(p);
     }
     
-    public String getSentiment(String text) {
+    public int getSentiment(String text) {
+        sent = 0;
         Annotation annotation = pipeline.process(text);
         List<CoreMap> sentences = annotation
                 .get(CoreAnnotations.SentencesAnnotation.class);
@@ -37,11 +39,17 @@ public class SentimentAnalysis {
         for(CoreMap sentence : sentences) {
             String sentiment = sentence
                     .get(SentimentCoreAnnotations.SentimentClass.class);
+            System.out.println(sentiment);
             //System.out.println(sentiment + "\t" + sentence);
-            fSentiment = fSentiment + sentiment;
+            if(sentiment.equals("Positive")) {
+                sent++;
+            }
+            else if(sentiment.equals("Negative")) {
+                sent--;
+            }
             
         }
-        return fSentiment;
+        return sent;
     }
     
 }

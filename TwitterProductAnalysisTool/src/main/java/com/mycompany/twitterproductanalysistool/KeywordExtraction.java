@@ -28,7 +28,7 @@ public class KeywordExtraction {
     
     public KeywordExtraction () {
        service = new AlchemyLanguage();
-       service.setApiKey("75b2e7961fd859b16c17c1a212794f27d60d1828");
+       service.setApiKey("f95e606f55199691a84a2808104210565e32663b");
     }
     
     public ArrayList<String> getKeywords (String s) {

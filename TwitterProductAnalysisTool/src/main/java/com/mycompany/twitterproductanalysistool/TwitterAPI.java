@@ -6,6 +6,8 @@
 package com.mycompany.twitterproductanalysistool;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.*;
 import java.util.List;
 import twitter4j.GeoLocation;
 import twitter4j.Query;
@@ -40,7 +42,7 @@ public class TwitterAPI {
         tweets = new ArrayList<>();
         try {
             Query query = new Query(qry);
-            query.setCount(50);
+            query.setCount(99);
             result = twitter.search(query);
             for (Status status : result.getTweets()) {
                 tweets.add(status.getText());
@@ -49,6 +51,10 @@ public class TwitterAPI {
             te.printStackTrace();
             System.out.println("Failed to search tweets: " + te.getMessage());
             System.exit(-1);
+        }
+        for(int i = 0; i < tweets.size(); i++) {
+            String s = tweets.get(i);
+            tweets.set(i, s.replace("\n", ""));
         }
         return tweets;
     }

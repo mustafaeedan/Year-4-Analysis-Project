@@ -6,8 +6,12 @@
 package com.mycompany.twitterproductanalysistool.GUI;
 
 import com.mycompany.twitterproductanalysistool.KeywordExtraction;
+import com.mycompany.twitterproductanalysistool.SentimentAnalysis;
 import com.mycompany.twitterproductanalysistool.TwitterAPI;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  *
@@ -16,16 +20,19 @@ import java.util.ArrayList;
 public class TwitterAnalysisFrame extends javax.swing.JFrame {
     private String hashTag;
     private ArrayList<ArrayList<String>> listKeywords;
-    private String feature;
+    private ArrayList<String> features;
     private int count;
+    private int positive;
+    private int neutral;
+    private int negative;
     private String strTweets;
 
     /**
      * Creates new form TwitterAnalysisFrame
      */
-    public TwitterAnalysisFrame(String hash, String f) {
+    public TwitterAnalysisFrame(String hash, ArrayList<String> f) {
         hashTag = hash;
-        feature = f;
+        features = f;
         runCore();
         initComponents();
         System.out.println(count);
@@ -40,22 +47,43 @@ public class TwitterAnalysisFrame extends javax.swing.JFrame {
         System.out.println(hashTag);
         strTweets = "";
         count = 0;
+        positive = 0;
+        negative = 0;
+        neutral = 0;
         listKeywords = new ArrayList<>();
+        SentimentAnalysis sa = new SentimentAnalysis();
         TwitterAPI twitter = new TwitterAPI();
-        ArrayList<String> tweets = twitter.getQuery(hashTag);
+        //ArrayList<String> tweets = twitter.getQuery(hashTag);
         KeywordExtraction key = new KeywordExtraction();
-        for(String s : tweets) {
+        for(String s : features) {
                 listKeywords.add(key.getKeywords(s)); 
         }
         for (int i = 0; i< listKeywords.size(); i++) {
-            ArrayList<String> list = listKeywords.get(i);
-            for (int j = 0; j < list.size(); j++) {
-                if(feature.contains(list.get(j))) {
-                    strTweets = strTweets + tweets.get(i) + "\n";
-                    count++;
-                    break;
-                }
+            String relKeyword;
+            if(listKeywords.get(i).size() > 0) {
+                relKeyword = listKeywords.get(i).get(0);
             }
+            else {
+                relKeyword = features.get(i);
+            }
+            System.out.println(hashTag + " " + relKeyword);
+            ArrayList<String> tweets = twitter.getQuery(hashTag + " " + relKeyword);
+                for (String tweet : tweets) {
+                    int selectedSentiment = sa.getSentiment(tweet);
+                    if (selectedSentiment > 0) {
+                        positive++;
+                    }
+                    else if (selectedSentiment < 0) {
+                        negative++;
+                    }
+                    else {
+                        neutral++;
+                    }
+                        //strTweets = strTweets + selectedTweet + " " + selectedSentiment + "\n";
+                        //count++;
+                }
+                strTweets = strTweets + features.get(i) + "   Pos: " + positive + " Neu: " + neutral + " Neg: " + negative + "\n";
+                positive = 0; neutral = 0; negative = 0;
         }
     }
     @SuppressWarnings("unchecked")
@@ -65,8 +93,6 @@ public class TwitterAnalysisFrame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,59 +102,48 @@ public class TwitterAnalysisFrame extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTextArea1);
         jTextArea1.setText(strTweets);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Count:");
-
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel2.setText(Integer.toString(count));
-
-        jButton1.setText("Ok");
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 367, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2))
-                    .addComponent(jButton1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 773, Short.MAX_VALUE)
+                .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(149, 149, 149)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(24, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        jButton1.setText("OK");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(22, 22, 22))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
@@ -165,11 +180,22 @@ public class TwitterAnalysisFrame extends javax.swing.JFrame {
             }
         });
     }
+    
+    public String removeNonASCII(String content) {
+        StringBuilder sb = new StringBuilder();
+        for (char c : content.toCharArray()) {
+            if ((int)c > 127) {
+                sb.append(" ");
+            }
+            else {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;

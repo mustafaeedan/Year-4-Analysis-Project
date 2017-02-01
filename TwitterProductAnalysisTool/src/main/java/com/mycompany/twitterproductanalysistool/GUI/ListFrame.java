@@ -47,7 +47,7 @@ public class ListFrame extends javax.swing.JFrame {
         jList1.setModel(listModel);
         jScrollPane1.setViewportView(jList1);
 
-        jLabel1.setText("Suggested Hashtags:");
+        jLabel1.setText("Hashtags:");
 
         jButton1.setText("Submit");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -107,6 +107,7 @@ public class ListFrame extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -117,9 +118,14 @@ public class ListFrame extends javax.swing.JFrame {
         }
         String joinedWords = String.join(" ", selectedValues);
         System.out.println(joinedWords);
-        TwitterAnalysisFrame tf = new TwitterAnalysisFrame(joinedWords, feat);
         setVisible(false);
-        tf.setVisible(true);
+        UserInputFrame ui = new UserInputFrame();
+        ui.setSearchQuery(joinedWords);
+        ui.setVisible(true);
+        
+        //TwitterAnalysisFrame tf = new TwitterAnalysisFrame(joinedWords, feat);
+        //setVisible(false);
+        //tf.setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
