@@ -26,6 +26,8 @@ public class TwitterAPI {
     private Twitter twitter;
     private QueryResult result;
     private ArrayList<String> tweets;
+    private ArrayList<String> tweetCountries;
+    private ArrayList<Date> tweetDates;
     
     public TwitterAPI() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
@@ -40,12 +42,21 @@ public class TwitterAPI {
     
     public ArrayList<String> getQuery(String qry) {
         tweets = new ArrayList<>();
+        tweetCountries = new ArrayList<>();
+        tweetDates = new ArrayList<>();
         try {
             Query query = new Query(qry);
             query.setCount(99);
             result = twitter.search(query);
             for (Status status : result.getTweets()) {
                 tweets.add(status.getText());
+                tweetDates.add(status.getCreatedAt());
+                if(status.getUser() == null) {
+                    tweetCountries.add("NO COUNTRY");
+                }
+                else {
+                    tweetCountries.add(status.getUser().getLocation());
+                }
             }
         } catch (TwitterException te) {
             te.printStackTrace();
@@ -57,6 +68,26 @@ public class TwitterAPI {
             tweets.set(i, s.replace("\n", ""));
         }
         return tweets;
+    }
+    
+    public ArrayList<String> getCountries() {
+        if (tweetCountries.size() == tweets.size()) {
+            return tweetCountries;
+        }
+        else {
+            System.out.println("SIZE IS DIFFERENT");
+        }
+        return null;
+    }
+    
+    public ArrayList<Date> getDates() {
+        if (tweetDates.size() == tweets.size()) {
+            return tweetDates;
+        }
+        else {
+            System.out.println("SIZE IS DIFFERENT DATES");
+        }
+        return null;
     }
     
 }

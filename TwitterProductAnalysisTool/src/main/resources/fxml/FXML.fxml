@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXMLController">
+   <children>
+      <Button fx:id="myButton" layoutX="158.0" layoutY="338.0" mnemonicParsing="false" text="Start" />
+      <Button layoutX="408.0" layoutY="338.0" mnemonicParsing="false" text="Exit" />
+      <Label layoutX="158.0" layoutY="68.0" prefHeight="126.0" prefWidth="285.0" text="Product Analysis Tool using Twitter">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

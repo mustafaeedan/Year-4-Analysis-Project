@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="484.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXML1Controller">
+   <children>
+      <TextField fx:id="hashTag" layoutX="28.0" layoutY="47.0" prefHeight="25.0" prefWidth="545.0" />
+      <Label layoutX="28.0" layoutY="22.0" text="Please enter a hashtag associated with the topic:" />
+      <Label layoutX="28.0" layoutY="86.0" text="Please enter your list of features here:" />
+      <ListView fx:id="fList" layoutX="28.0" layoutY="118.0" prefHeight="296.0" prefWidth="545.0" />
+      <HBox layoutX="332.0" layoutY="426.0" prefHeight="34.0" prefWidth="241.0" spacing="10.0">
+         <children>
+            <Button fx:id="enterURL" mnemonicParsing="false" text="Enter URL" />
+            <Button fx:id="add" mnemonicParsing="false" text="Add" />
+            <Button fx:id="delete" lineSpacing="5.0" mnemonicParsing="false" text="Delete" />
+            <Button fx:id="submit" mnemonicParsing="false" text="Submit" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>

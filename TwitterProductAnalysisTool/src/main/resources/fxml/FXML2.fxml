@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="featurePage" prefHeight="484.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXML2Controller">
+   <children>
+      <ListView fx:id="butList" layoutX="25.0" layoutY="23.0" prefHeight="426.0" prefWidth="550.0" />
+   </children>
+</AnchorPane>

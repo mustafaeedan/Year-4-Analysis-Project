@@ -39,7 +39,6 @@ public class SentimentAnalysis {
         for(CoreMap sentence : sentences) {
             String sentiment = sentence
                     .get(SentimentCoreAnnotations.SentimentClass.class);
-            System.out.println(sentiment);
             //System.out.println(sentiment + "\t" + sentence);
             if(sentiment.equals("Positive")) {
                 sent++;
