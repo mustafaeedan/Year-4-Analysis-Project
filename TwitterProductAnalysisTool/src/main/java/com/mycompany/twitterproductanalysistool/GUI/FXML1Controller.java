@@ -22,6 +22,8 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -30,6 +32,7 @@ import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.*;
@@ -46,6 +49,8 @@ import javax.swing.JOptionPane;
 public class FXML1Controller implements Initializable {
 
      @FXML //  fx:id="myButton"
+     private AnchorPane inputPane; // Value injected by FXMLLoader
+     @FXML //  fx:id="myButton"
      private Button enterURL; // Value injected by FXMLLoader
      @FXML
      private Button add; // Value injected by FXMLLoader
@@ -60,6 +65,11 @@ public class FXML1Controller implements Initializable {
      
      private ObservableList<String> data = FXCollections.observableArrayList();
      private ArrayList<ArrayList<String>> keywords = new ArrayList<>();
+     private boolean flag = false;
+     private ComboBox<String> choiceList = new ComboBox<String>();
+     private Separator sep = new Separator();
+     private Button save = new Button("Save");
+     private Label selectFeat = new Label("Select the keyword for this feature:");
      
 
     @Override
@@ -72,26 +82,57 @@ public class FXML1Controller implements Initializable {
                 public void handle(MouseEvent click) {
                     try {
                         if(click.getClickCount() == 2) {
-                            int indexList = fList.getSelectionModel().getSelectedIndex();
-                            ArrayList<String> selections = keywords.get(indexList);
-                            Dialog dialog = new ChoiceDialog(selections.get(0), selections);
-                            dialog.setTitle("Keyword Choice");
-                            dialog.setHeaderText("Select which keyword to be used for this feature:");
+                            if(flag == false) {
+                                add.getScene().getWindow().setWidth(820);
+                                fList.getScene().getWindow().centerOnScreen();
+                                sep.setOrientation(Orientation.VERTICAL);
+                                sep.setPrefSize(5, 436);
+                                choiceList.setPrefSize(184, 25);
                             
-                            Optional<String> result = dialog.showAndWait();
-                            String choice = "";
+                                inputPane.getChildren().add(sep);
+                                inputPane.getChildren().add(selectFeat);
+                                inputPane.getChildren().add(choiceList);
+                                inputPane.getChildren().add(save);
                             
-                            if(result.isPresent()) {
-                                choice = result.get();
-                                int newKeySearch = selections.indexOf(choice);
-                                Collections.swap(selections, 0, newKeySearch);
-                                keywords.set(indexList, selections);
+                                selectFeat.relocate(604, 176);
+                                sep.relocate(590, 22);
+                                choiceList.relocate(604, 205);
+                                save.relocate(676, 426);
+                                flag = true;
                             }
+                            
+                            if(flag == true) {
+                                final int indexList = fList.getSelectionModel().getSelectedIndex();
+                                System.out.println("INDEX IS " + indexList);
+                                final ArrayList<String> selections = keywords.get(indexList);
+                                System.out.println("SELECTIONS IS " + selections);
+                                ObservableList<String> obSelect = FXCollections.observableList(selections);
+                                choiceList.setItems(obSelect);
+                                choiceList.getSelectionModel().select(0);
+                                save.setOnAction(new EventHandler<ActionEvent>() {
+                                    @Override
+                                    public void handle(ActionEvent event) {          
+                                      int newKeySearch = choiceList.getSelectionModel().getSelectedIndex();
+                                      System.out.println(choiceList.getSelectionModel().getSelectedIndex());
+                                      Collections.swap(selections, 0, newKeySearch);
+                                      System.out.println("FIRST ELEMENT IS " + selections.get(0));
+                                      keywords.set(indexList, selections);
+                                      System.out.println(keywords.get(indexList));
+                                      clearAddedSideBar();
+                                      fList.getScene().getWindow().centerOnScreen();
+                                      fList.getSelectionModel().clearSelection();
+                                      flag = false;
+                                    }
+                                });
+                                
+                            }
+                           
                         }
                     } catch (NullPointerException e) {
                     }
                 }
             });
+            
             final KeywordExtraction key = new KeywordExtraction();
             
             enterURL.setOnAction(new EventHandler<ActionEvent>() {
@@ -279,15 +320,26 @@ public class FXML1Controller implements Initializable {
                         count++;
                     }
                     
+                    if(flag) { clearAddedSideBar(); }
+                    
                     Scene scene = new Scene(page);
                     Stage stage = (Stage) submit.getScene().getWindow();
                     stage.setScene(scene);
+                    stage.centerOnScreen();
                     stage.show();
                 } catch (IOException e) {
                     System.out.println(e);
                 }
             }
         });
+    }
+    
+    public void clearAddedSideBar() {
+        inputPane.getChildren().remove(sep);
+        inputPane.getChildren().remove(selectFeat);
+        inputPane.getChildren().remove(choiceList);
+        inputPane.getChildren().remove(save);
+        add.getScene().getWindow().setWidth(615);
     }
                 
     

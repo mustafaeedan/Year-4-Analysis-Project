@@ -45,7 +45,7 @@ public class FXML2Controller implements Initializable {
             public ListCell call(ListView<String> param) {
                 return new ButtonCell(tempConts, tempDates);
             }
-        });
+        });  
         butList.setItems(data);
     }   
     

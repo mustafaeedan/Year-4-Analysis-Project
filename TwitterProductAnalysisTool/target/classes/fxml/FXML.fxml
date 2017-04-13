@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXMLController">
+<AnchorPane id="AnchorPane" prefHeight="484.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXMLController">
    <children>
       <Button fx:id="myButton" layoutX="158.0" layoutY="338.0" mnemonicParsing="false" text="Start" />
       <Button layoutX="408.0" layoutY="338.0" mnemonicParsing="false" text="Exit" />

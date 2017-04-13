@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="484.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXML1Controller">
+<AnchorPane id="AnchorPane" fx:id="inputPane" prefHeight="484.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.twitterproductanalysistool.GUI.FXML1Controller">
    <children>
       <TextField fx:id="hashTag" layoutX="28.0" layoutY="47.0" prefHeight="25.0" prefWidth="545.0" />
       <Label layoutX="28.0" layoutY="22.0" text="Please enter a hashtag associated with the topic:" />
